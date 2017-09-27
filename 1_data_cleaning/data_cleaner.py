@@ -98,7 +98,7 @@ class DataCleaner:
         return subsidies
 
     def get_state_county_df(self):
-        state_county_df = pd.read_csv('./data/US_county_FIPS.csv')
+        state_county_df = pd.read_csv('US_county_FIPS.csv')
         state_county_df.columns = ['state','county','state_code','county_code']
         state_county_df.county = state_county_df.county.apply(lambda x: x+' County')
         return state_county_df
