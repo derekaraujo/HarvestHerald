@@ -15,6 +15,18 @@ import re
 
 class FeatureEngineer:
 
+    '''
+    A class to engineer features from the subsidy payment, weather, and commodities futures data
+    sets, as follows:
+        - Load the subsidy payment, weather, and commodity futures data sets
+        - For each subsidy payment record: engineer new features using the three
+          data sets and the 'add_[...]' functions defined above.  The new features are
+          stored in the self.subsides_df data frame.
+        - Bin the engineered features in self.subsidies_df by month to generate a new data frame, 
+          self.binned_subsidies_df, containing the mean, median, min, max, and standard deviation 
+          for each feature for each monthly bin.
+    '''
+
     def __init__(self, username=None, crop_name='UPCN'):
         self.crop_name = crop_name
         self.futures_crop_dict = {'UPCN':'US Cotton Futures', 'CORN':'US Corn Futures', 
@@ -52,21 +64,24 @@ class FeatureEngineer:
         A function to parse the subsidy payment transaction date and add
         the trasaction year as a new feature.
         '''
-        self.subsidies_df['transaction_year'] =             self.subsidies_df.transaction_date.apply(lambda x: x.year)
+        self.subsidies_df['transaction_year'] = \
+		self.subsidies_df.transaction_date.apply(lambda x: x.year)
 
     def add_transaction_month(self):
         '''
         A function to parse the subsidy payment transaction date and add
         the trasaction month as a new feature.
         '''
-        self.subsidies_df['transaction_month'] =             self.subsidies_df.transaction_date.apply(lambda x: x.month)
+        self.subsidies_df['transaction_month'] = \
+		self.subsidies_df.transaction_date.apply(lambda x: x.month)
 
     def add_transaction_day(self):
         '''
         A function to parse the subsidy payment transaction date and add
         the trasaction day as a new feature.
         '''
-        self.subsidies_df['transaction_day'] =             self.subsidies_df.transaction_date.apply(lambda x: x.day)
+        self.subsidies_df['transaction_day'] = \
+		self.subsidies_df.transaction_date.apply(lambda x: x.day)
     
     def add_day_of_year_number(self, row):
         '''
@@ -101,8 +116,10 @@ class FeatureEngineer:
         '''
         month_to_season_dict = {1:1, 2:1, 3:2, 4:2, 5:2, 6:3,
                                 7:3, 8:3, 9:4, 10:4, 11:4, 12:1}
-        self.subsidies_df['season'] =             self.subsidies_df.transaction_month.apply(lambda x: month_to_season_dict[x])
-        self.subsidies_df.season =             self.subsidies_df.season.apply(lambda x: pl.cos(2. * pl.pi * (x - pl.pi/2.) / 4.))
+        self.subsidies_df['season'] = \
+		self.subsidies_df.transaction_month.apply(lambda x: month_to_season_dict[x])
+        self.subsidies_df.season = \
+		self.subsidies_df.season.apply(lambda x: pl.cos(2. * pl.pi * (x - pl.pi/2.) / 4.))
             
     def add_week_of_year_number(self):
         '''
@@ -110,15 +127,18 @@ class FeatureEngineer:
         for each subsidy payment.
         Returns sin(2pi * weeks / 52) to cycle at the start/end of the year
         '''
-        self.subsidies_df['week_of_year'] =             self.subsidies_df.transaction_date.apply(lambda x: 
-                                                     (x - pd.to_datetime('%s-01-01' % x.year)).days/7.)
-        self.subsidies_df.week_of_year =             self.subsidies_df.week_of_year.apply(lambda x: pl.sin(2. * pl.pi * x / 52.))
+        self.subsidies_df['week_of_year'] = \
+		self.subsidies_df.transaction_date.apply(lambda x: 
+                                                         (x - pd.to_datetime('%s-01-01' % x.year)).days/7.)
+        self.subsidies_df.week_of_year = \
+		self.subsidies_df.week_of_year.apply(lambda x: pl.sin(2. * pl.pi * x / 52.))
     
     def add_log_transaction_amount(self):
         '''
         A function to add the natural logarithm of the subsidy payment amount as a feature.
         '''
-        self.subsidies_df['log_transaction_amount'] =             self.subsidies_df.transaction_amount.apply(lambda x: np.log(x))
+        self.subsidies_df['log_transaction_amount'] =  \
+		self.subsidies_df.transaction_amount.apply(lambda x: np.log(x))
     
     def add_customer_number_binary_var(self):
         '''
@@ -129,7 +149,8 @@ class FeatureEngineer:
         the size or type of farm to which the payment was made (e.g., small farm vs agricultural
         conglomerate).
         '''
-        self.subsidies_df['customer_number_startswith_A'] =             self.subsidies_df.customer_number.apply(lambda x: 1 if x.startswith('A') else 0)
+        self.subsidies_df['customer_number_startswith_A'] = \
+		self.subsidies_df.customer_number.apply(lambda x: 1 if x.startswith('A') else 0)
             
     def add_customer_cluster_number(self):
         '''
@@ -156,7 +177,8 @@ class FeatureEngineer:
             - cluster = cluster number to which a customer (farm) belongs, as defined in the function
               add_customer_cluster_number.
         '''
-        self.subsidies_df['state_county_code'] = self.subsidies_df.apply(lambda row: '%s_%s' %                                                          (row.state_code, row.county_code), axis=1)
+        self.subsidies_df['state_county_code'] = self.subsidies_df.apply(lambda row: '%s_%s' % \
+							  (row.state_code, row.county_code), axis=1)
         column_names = ['program_code', 'state_code', 'state_county_code', 'cluster']
         for column_name in column_names:
             dummies = pd.get_dummies(self.subsidies_df['%s' % column_name], 
@@ -171,8 +193,10 @@ class FeatureEngineer:
         self.add_transaction_year()
         self.add_transaction_month() 
         self.add_transaction_day()
-        self.subsidies_df['day_of_year'] =             self.subsidies_df.apply(self.add_day_of_year_number, axis=1)
-        self.subsidies_df['day_of_month'] =             self.subsidies_df.apply(self.add_day_of_month_number, axis=1)
+        self.subsidies_df['day_of_year'] = \
+		self.subsidies_df.apply(self.add_day_of_year_number, axis=1)
+        self.subsidies_df['day_of_month'] = \
+		self.subsidies_df.apply(self.add_day_of_month_number, axis=1)
         self.add_week_of_year_number()
         self.add_season_number()
         self.add_customer_number_binary_var()
@@ -254,9 +278,12 @@ class FeatureEngineer:
         self.subsidies_df['futures_30day_std'] = self.subsidies_df.apply(self.add_futures_1month_std, axis=1)
         self.subsidies_df['futures_30day_range'] = self.subsidies_df.apply(self.add_futures_1month_range, axis=1)
         if self.crop_name == 'CORN':
-            self.subsidies_df['ethanol_futures_1month_avg'] =                 self.subsidies_df.apply(self.add_ethanol_futures_1month_mean, axis=1)
-            self.subsidies_df['ethanol_futures_1month_std'] =                 self.subsidies_df.apply(self.add_ethanol_futures_1month_std, axis=1)
-            self.subsidies_df['ethanol_futures_1month_range'] =                 self.subsidies_df.apply(self.add_ethanol_futures_1month_range, axis=1)
+            self.subsidies_df['ethanol_futures_1month_avg'] = \
+		self.subsidies_df.apply(self.add_ethanol_futures_1month_mean, axis=1)
+            self.subsidies_df['ethanol_futures_1month_std'] = \
+		self.subsidies_df.apply(self.add_ethanol_futures_1month_std, axis=1)
+            self.subsidies_df['ethanol_futures_1month_range'] = \
+		self.subsidies_df.apply(self.add_ethanol_futures_1month_range, axis=1)
     
     ## Features based on weather events
     
@@ -266,12 +293,17 @@ class FeatureEngineer:
         time of the subsidy payment as a new feature for each payment record.
         '''
         year = row.transaction_year
-        bool_filter = (self.weather_df.STATE_FIPS == row.state_code) &                       (self.weather_df.CZ_FIPS == row.county_code) &                       (self.weather_df.BEGIN_DATE_TIME >= pd.to_datetime('%s-01-01' % year)) &                       (self.weather_df.BEGIN_DATE_TIME >= row.transaction_date) 
+        bool_filter = (self.weather_df.STATE_FIPS == row.state_code) & \
+		      (self.weather_df.CZ_FIPS == row.county_code) & \
+		      (self.weather_df.BEGIN_DATE_TIME >= pd.to_datetime('%s-01-01' % year)) & \
+		      (self.weather_df.BEGIN_DATE_TIME >= row.transaction_date) 
         idxs = pl.where(bool_filter==True)[0]
         if len(idxs) == 0:
             return 0
-        start_dates, end_dates = self.weather_df.BEGIN_DATE_TIME.values[idxs],             self.weather_df.END_DATE_TIME.values[idxs]
-        durations = self.weather_df.END_DATE_TIME.values[idxs] -                         self.weather_df.BEGIN_DATE_TIME.values[idxs]
+        start_dates, end_dates = self.weather_df.BEGIN_DATE_TIME.values[idxs], \
+		self.weather_df.END_DATE_TIME.values[idxs]
+        durations = self.weather_df.END_DATE_TIME.values[idxs] - \
+		self.weather_df.BEGIN_DATE_TIME.values[idxs]
         total_days = 0
         for i in range(len(durations)):
             duration_in_days = durations[i].astype('timedelta64[D]') / np.timedelta64(1,'D')
@@ -298,7 +330,11 @@ class FeatureEngineer:
         '''
         severe_word_stems = ['extrem', 'harsh', 'harsher', 'sever', 'acut']
         mild_word_stems = ['mild', 'lessen', 'moder', 'slight']
-        weather_subset = self.weather_df[(self.weather_df.EVENT_TYPE == 'Drought') &                                          (self.weather_df.STATE_FIPS == row.state_code) &                                          (self.weather_df.CZ_FIPS == row.county_code) &                                          (self.weather_df.BEGIN_DATE_TIME < row.transaction_date) &                                          (self.weather_df.END_DATE_TIME <= row.transaction_date)]
+        weather_subset = self.weather_df[(self.weather_df.EVENT_TYPE == 'Drought') & \
+					 (self.weather_df.STATE_FIPS == row.state_code) & \
+					 (self.weather_df.CZ_FIPS == row.county_code) & \
+					 (self.weather_df.BEGIN_DATE_TIME < row.transaction_date) & \
+					 (self.weather_df.END_DATE_TIME <= row.transaction_date)]
         if weather_subset.empty:
             return 0
         severity_count = 0
@@ -318,8 +354,10 @@ class FeatureEngineer:
         A wrapper function to run each of the weather data feature engineering functions
         defined above.
         '''
-        self.subsidies_df['days_of_drought_in_yr'] =             self.subsidies_df.apply(self.get_num_days_drought, axis=1)
-        self.subsidies_df['drought_severity_count'] =             self.subsidies_df.apply(self.get_drought_severity_count, axis=1)
+        self.subsidies_df['days_of_drought_in_yr'] = \
+		self.subsidies_df.apply(self.get_num_days_drought, axis=1)
+        self.subsidies_df['drought_severity_count'] = \
+		self.subsidies_df.apply(self.get_drought_severity_count, axis=1)
     
     ### Run wrapper functions to add features to subsidies data frame
     
@@ -383,7 +421,8 @@ class FeatureEngineer:
                 bin_df.drop('%s_transaction_yearmonth' % description, axis=1, inplace=True)
             self.binned_subsidies_df = pd.concat([self.binned_subsidies_df, bin_df], axis=1)
 
-        self.binned_subsidies_df['log_mean_transaction_amount'] =             self.binned_subsidies_df.mean_transaction_amount.apply(lambda x: np.log(x))
+        self.binned_subsidies_df['log_mean_transaction_amount'] = \
+		self.binned_subsidies_df.mean_transaction_amount.apply(lambda x: np.log(x))
     
     ### Run the feature engineering pipeline:
     
