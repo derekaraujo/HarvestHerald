@@ -31,7 +31,8 @@ class DataCleaner:
 
     def __init__(self):
         self.raw_weather_data_files = [f for f in os.listdir('./../data') if f.startswith('StormEvents_details')]
-        self.raw_subsidies_data_files = [f for f in os.listdir('./../data') if f.startswith('USFarmSubsidiesProducerPayment')]
+        self.raw_subsidies_data_files = [f for f in os.listdir('./../data') if 
+                                         f.startswith('USFarmSubsidiesProducerPayment')]
         self.state_code_dict, self.county_code_dict = self.generate_state_and_county_code_dicts()
 
     #### Weather data frame ####
@@ -209,7 +210,8 @@ class DataCleaner:
             for column in ['price','open','high','low']:
                 futures_df[column] = futures_df[column].apply(lambda x: x.replace(',','') if type(x)==str else x)
                 futures_df[column] = futures_df[column].apply(lambda x: pd.to_numeric(x))
-            futures_df.volume = futures_df.volume.apply(lambda x: 1000.*float(x.replace('K','')) if 'K' in x else float(x))
+            futures_df.volume = futures_df.volume.apply(lambda x: 1000.*float(x.replace('K','')) if \
+                                                        'K' in x else float(x))
             futures_df.to_csv('./../data/processed_futures_prices.csv', index=False)
         else:    
             futures_df = pd.read_csv('./../data/processed_futures_prices.csv', header=0)
