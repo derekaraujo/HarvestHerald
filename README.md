@@ -1,4 +1,6 @@
 # HarvestHerald
 ## Using public data to forecast USDA farm subsidies
 
-<img src='images/subsidy2.jpeg' width='300' align='center'>
+<p align='center'>
+<img src='images/subsidy2.jpeg' width='450'>
+</p>
