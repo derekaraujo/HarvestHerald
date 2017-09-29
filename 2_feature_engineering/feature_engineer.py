@@ -20,7 +20,7 @@ class FeatureEngineer:
     sets, as follows:
         - Load the subsidy payment, weather, and commodity futures data sets
         - For each subsidy payment record: engineer new features using the three
-          data sets and the 'add_[...]' functions defined above.  The new features are
+          data sets and the 'add_[...]' methods defined above.  The new features are
           stored in the self.subsides_df data frame.
         - Bin the engineered features in self.subsidies_df by month to generate a new data frame, 
           self.binned_subsidies_df, containing the mean, median, min, max, and standard deviation 
@@ -41,7 +41,7 @@ class FeatureEngineer:
         
     def query_sql_database(self):
         '''
-        A function to query the PostgreSQL agricultural subsidies db data base generated
+        A method to query the PostgreSQL agricultural subsidies db data base generated
         by the DataCleaner class and load the relevant data into Pandas data frames. 
         '''
         con = psycopg2.connect(database='agricultural_subsidies_db', user=self.username)
@@ -61,7 +61,7 @@ class FeatureEngineer:
     
     def add_transaction_year(self):
         '''
-        A function to parse the subsidy payment transaction date and add
+        A method to parse the subsidy payment transaction date and add
         the trasaction year as a new feature.
         '''
         self.subsidies_df['transaction_year'] = \
@@ -69,7 +69,7 @@ class FeatureEngineer:
 
     def add_transaction_month(self):
         '''
-        A function to parse the subsidy payment transaction date and add
+        A method to parse the subsidy payment transaction date and add
         the trasaction month as a new feature.
         '''
         self.subsidies_df['transaction_month'] = \
@@ -77,7 +77,7 @@ class FeatureEngineer:
 
     def add_transaction_day(self):
         '''
-        A function to parse the subsidy payment transaction date and add
+        A method to parse the subsidy payment transaction date and add
         the trasaction day as a new feature.
         '''
         self.subsidies_df['transaction_day'] = \
@@ -85,7 +85,7 @@ class FeatureEngineer:
     
     def add_day_of_year_number(self, row):
         '''
-        A function to add a new feature: number of days into the year / 365
+        A method to add a new feature: number of days into the year / 365
         for each subsidy payment.
         Returns sin(2pi * days / 365) to cycle at December 31/January 1
         '''
@@ -95,7 +95,7 @@ class FeatureEngineer:
 
     def add_day_of_month_number(self, row):
         '''
-        A function to add a new feature: number of days into the month / 30
+        A method to add a new feature: number of days into the month / 30
         for each subsidy payment.
         Returns sin(2pi * days / 30) to cycle at first/last of month
         '''
@@ -106,7 +106,7 @@ class FeatureEngineer:
 
     def add_season_number(self):
         '''
-        A function to add a new feature: season number / 4
+        A method to add a new feature: season number / 4
         for each subsidy payment.  Seasons are defined as meteorological seasons:
             - Winter = [December, January, February] = season 1
             - Spring = [March, April, May] = season 2
@@ -123,7 +123,7 @@ class FeatureEngineer:
             
     def add_week_of_year_number(self):
         '''
-        A function to add a new feature: number of weeks into the year / 52
+        A method to add a new feature: number of weeks into the year / 52
         for each subsidy payment.
         Returns sin(2pi * weeks / 52) to cycle at the start/end of the year
         '''
@@ -135,14 +135,14 @@ class FeatureEngineer:
     
     def add_log_transaction_amount(self):
         '''
-        A function to add the natural logarithm of the subsidy payment amount as a feature.
+        A method to add the natural logarithm of the subsidy payment amount as a feature.
         '''
         self.subsidies_df['log_transaction_amount'] =  \
                 self.subsidies_df.transaction_amount.apply(lambda x: np.log(x))
     
     def add_customer_number_binary_var(self):
         '''
-        A function to add a binary feature: 
+        A method to add a binary feature: 
             1 = USDA customer number starts with the letter 'A',
             0 = USDA customer number starts with any other letter (in effect, letter 'B')
         The meaning of this distinction is not documented in the data set, but may be related to
@@ -154,7 +154,7 @@ class FeatureEngineer:
             
     def add_customer_cluster_number(self):
         '''
-        A function to identify clusters of customers (farms) across different states and counties.
+        A method to identify clusters of customers (farms) across different states and counties.
         Returns the KMeans cluster number (from 0 to 9) for the farm, as identified by the 
         sklearn.cluster.KMeans algorithm with the number of clusters (n_clusters) set to 10.
         '''
@@ -168,13 +168,13 @@ class FeatureEngineer:
         
     def add_categorical_dummy_vars(self):
         '''
-        A function to generate one-hot encoded variables for the following categorical variables:
+        A method to generate one-hot encoded variables for the following categorical variables:
             - program_code = USDA code for the subsidy program under which a payment was made
               (e.g., program_code 2603 = USDA's "Distaster Assistance" program)
             - state_code = federal state FIPS code for the customer's state (e.g., Nebraska = 31)
             - state_county_code = federal state-and-county FIPS for the customer's state and county
               (e.g., Adams County, Nebraska = 31-001).
-            - cluster = cluster number to which a customer (farm) belongs, as defined in the function
+            - cluster = cluster number to which a customer (farm) belongs, as defined in the method
               add_customer_cluster_number.
         '''
         self.subsidies_df['state_county_code'] = self.subsidies_df.apply(lambda row: '%s_%s' % \
@@ -187,7 +187,7 @@ class FeatureEngineer:
 
     def run_subsidy_df_features_wrapper(self):
         '''
-        A wrapper function to run each of the subsidy data feature engineering functions
+        A wrapper method to run each of the subsidy data feature engineering methods
         defined above.
         '''
         self.add_transaction_year()
@@ -208,7 +208,7 @@ class FeatureEngineer:
     
     def add_futures_1month_mean(self, row):    
         '''
-        A function to add the average price of the crop-of-interest's futures price during
+        A method to add the average price of the crop-of-interest's futures price during
         a 30-day look-back window prior to the subsidy payment.
         '''
         price_df = self.futures_df[(self.futures_df.commodity==self.commodity) & 
@@ -219,7 +219,7 @@ class FeatureEngineer:
 
     def add_futures_1month_std(self, row):
         '''
-        A function to add the standard deviation of the price of the crop-of-interest's futures 
+        A method to add the standard deviation of the price of the crop-of-interest's futures 
         price during a 30-day look-back window prior to the subsidy payment.
         '''
         price_df = self.futures_df[(self.futures_df.commodity==self.commodity) & 
@@ -230,7 +230,7 @@ class FeatureEngineer:
 
     def add_futures_1month_range(self, row):
         '''
-        A function to add the range of the crop-of-interest's futures price during
+        A method to add the range of the crop-of-interest's futures price during
         a 30-day look-back window prior to the subsidy payment.
         '''
         price_df = self.futures_df[(self.futures_df.commodity==self.commodity) & 
@@ -241,7 +241,7 @@ class FeatureEngineer:
     
     def add_ethanol_futures_1month_mean(self, row):
         '''
-        A function to add the average price of ethanol futures during a 30-day look-back 
+        A method to add the average price of ethanol futures during a 30-day look-back 
         window prior to the subsidy payment.  Relevant for corn subsidies.
         '''
         price_df = self.futures_df[(self.futures_df.commodity == 'Ethanol Futures') & 
@@ -250,7 +250,7 @@ class FeatureEngineer:
 
     def add_ethanol_futures_1month_std(self, row):
         '''
-        A function to add the standard deviation of the price of ethanol futures during
+        A method to add the standard deviation of the price of ethanol futures during
         a 30-day look-back window prior to the subsidy payment.  Relevant for corn subsidies.
         '''
         price_df = self.futures_df[(self.futures_df.commodity == 'Ethanol Futures') & 
@@ -259,7 +259,7 @@ class FeatureEngineer:
 
     def add_ethanol_futures_1month_range(self, row):
         '''
-        A function to add the range of the  price of ethanol futures during a 30-day look-back 
+        A method to add the range of the  price of ethanol futures during a 30-day look-back 
         window prior to the subsidy payment.  Relevant for corn subsidies.
         '''
         price_df = self.futures_df[(self.futures_df.commodity == 'Ethanol Futures') & 
@@ -270,7 +270,7 @@ class FeatureEngineer:
     
     def run_commodity_futures_features_wrapper(self):
         '''
-        A wrapper function to run each of the futures data feature engineering functions
+        A wrapper method to run each of the futures data feature engineering methods
         defined above.
         '''
         self.commodity = self.futures_crop_dict[self.crop_name]
@@ -289,7 +289,7 @@ class FeatureEngineer:
     
     def get_num_days_drought(self, row):
         '''
-        A function to add the number of days of drought in the customer's county up to the
+        A method to add the number of days of drought in the customer's county up to the
         time of the subsidy payment as a new feature for each payment record.
         '''
         year = row.transaction_year
@@ -312,7 +312,7 @@ class FeatureEngineer:
     
     def get_drought_severity_count(self, row):
         '''
-        A function to assign a numeric severity score to the drought(s) that have occurred in a
+        A method to assign a numeric severity score to the drought(s) that have occurred in a
         customer's county from the start of the year to the date of the subsidy payment.
           - The one-paragraph description field for each drought event is parsed and searched for
             word tokens indicative of severe droughts (e.g., word tokens corresponding to 
@@ -351,7 +351,7 @@ class FeatureEngineer:
     
     def run_weather_features_wrapper(self):
         '''
-        A wrapper function to run each of the weather data feature engineering functions
+        A wrapper method to run each of the weather data feature engineering methods
         defined above.
         '''
         self.subsidies_df['days_of_drought_in_yr'] = \
@@ -359,11 +359,11 @@ class FeatureEngineer:
         self.subsidies_df['drought_severity_count'] = \
                 self.subsidies_df.apply(self.get_drought_severity_count, axis=1)
     
-    ### Run wrapper functions to add features to subsidies data frame
+    ### Run wrapper methods to add features to subsidies data frame
     
     def engineer_new_subsidy_features(self):
         '''
-        A function to call the wrapper functions defined above to engineer new
+        A method to call the wrapper methods defined above to engineer new
         features for each subsidy payment using data from the subsidies, weather,
         and commodity futures data sets.
         '''
@@ -377,7 +377,7 @@ class FeatureEngineer:
     
     def generate_monthly_binned_df(self):
         '''
-        A function to bin the engineered features in self.subsidies_df by month.  
+        A method to bin the engineered features in self.subsidies_df by month.  
         Produces a new data frame, self.binned_subsidies_df, containing the 
         mean, median, min, max, and standard deviation for each feature for each monthly bin.
         '''
@@ -428,10 +428,10 @@ class FeatureEngineer:
     
     def run(self):
         '''
-        A function to run the entire feature engineering pipeline, as follows:
+        A method to run the entire feature engineering pipeline, as follows:
             - Load the subsidy payment, weather, and commodity futures data sets
             - For each subsidy payment record: engineer new features using the three
-              data sets and the 'add_[...]' functions defined above
+              data sets and the 'add_[...]' methods defined above
             - Bin the engineered features by month to generate a new data frame, 
               self.binned_subsidies_df, containing the mean, median, min, max, and 
               standard deviation for each feature for each monthly bin.
