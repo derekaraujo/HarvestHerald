@@ -224,7 +224,22 @@ class ARIMAForecaster:
         pl.ylabel(ylabel)
         pl.savefig('arima_forecast.png')
         pl.show()
-                  
+    
+    def examine_residuals(self):
+        '''
+        A method to examine the autocorrelation plot and partial autocorrelation plot
+        of the model residuals to check them for autocorrelation.
+        '''
+        residuals = [self.predictions[i] - self.test[i] for i in range(len(self.test))]
+        residuals = pd.DataFrame(residuals)
+        pl.figure()
+        pl.subplot(211)
+        plot_acf(residuals, ax=pl.gca())
+        pl.subplot(212)
+        plot_pacf(residuals, ax=pl.gca())
+        pl.tight_layout();
+        pl.show()
+        
     # Wrapper function:
     
     def run(self):
@@ -232,9 +247,10 @@ class ARIMAForecaster:
         A wrapper method to run the forecasting pipeline.
         '''
         self.form_training_and_test_sets()
-        self.decompose_seasonality()
+        #self.decompose_seasonality()
         self.test_differenced_timestream_stationarity()
-        self.do_hyperparameter_grid_search()
+        #self.do_hyperparameter_grid_search()
         self.walk_forward_forecast(self.p_hyperparameter, self.d_hyperparameter,
                                    self.q_hyperparameter)
         self.plot_forecast()
+        self.examine_residuals()
