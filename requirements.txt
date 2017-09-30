@@ -1,0 +1,22 @@
+# Requirements to run HarvestHerald.
+# To use type: pip install -r requirements.txt
+
+## Requirements without Version specifiers
+pandas
+matplotlib
+numpy
+pylab
+matplotlib
+sqlalchemy
+sqlalchemy_utils
+sklearn
+os
+seaborn
+psycopg2
+datetime 
+nltk
+re
+statsmodels
+warnings
+xgboost
+copy
