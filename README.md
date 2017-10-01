@@ -80,7 +80,7 @@ Time series forecasting in general is known to be a difficult problem.  In this 
 
 __Unknown and variable time lags:__ 
 
-The subsidy payment data contain the date of the _payment_ to the farm.  But the size of the subsidy depends on the date of the farmer's _loss_.  For price support subsidies, the date of loss is the date on which the farm sold the crop below the price floor.  Unfortunately, __the lag between the loss and the subsidy payment is unknown,__ and can vary from months up to a year depending on the commodity, the subsidy program, and the time required to file and process the required paperwork.  As a result, both the price and the volume of crop are unknown.
+The subsidy payment data contain the date of the _payment_ to the farm.  But the size of the subsidy depends on the date of the farmer's _loss_.  For price support subsidies, the date of loss is the date on which the farm sold the crop below the price floor.  Unfortunately, __the lag between the loss and the subsidy payment is unknown,__ and can vary from months up to a year depending on the commodity, the subsidy program, and the time required to file and process the required paperwork.  As a result, __both the price and the volume of crop are unknown.__
 
 I should give a big shout-out to [Enigma](https://www.enigma.com/), who contacted the USDA on my behalf to obtain this missing information.  It unfortunately remains unavailable.
   
