@@ -163,7 +163,9 @@ Rather than choose between these competing camps, I ultimately decided to try bo
 
 Auto-Regressive Integrated Moving Average models use the structure of previous samples in a time series to generate forecasts of future time samples.  ARIMA models can be thought of as a predictive model in which the predicted value is a linear sum of of lags of the dependent variable and lags of the forecast errors:
 
+<p>
 <center>predicted y = constant + [weighted sum of lagged values of y] + [weighted sum of lagged errors]</center>
+</p>
 
 More formally, ARIMA models incorporate the following components:
 
@@ -172,20 +174,20 @@ More formally, ARIMA models incorporate the following components:
   * __Moving Average:__ the dependence between an observed sample and the residual errors from a moving average model applied to lagged observations.
 
 Each feature above is specified in the model by setting a hyparameter:
-  * __p ("lag order"):__ the number of lagged terms to include.
-  * __d ("degree of differencing"):__ the number of times to difference the raw time stream.
-  * __q ("order of moving average"):__ the number of moving average terms to include.  For example, if _q_ is 3, the predictors for $X_t$ will include $e_{t-1}...e_{t-3}$, where $e_i$ is the difference between the moving average at the $i$th sample and the observed sample value.
+  * __p (lag order):__ the number of lagged terms to include.
+  * __d (degree of differencing):__ the number of times to difference the raw time stream.
+  * __q (order of moving average):__ the number of moving average terms to include.  For example, if _q_ is 3, the predictors for <a href="http://www.codecogs.com/eqnedit.php?latex=X_t" target="_blank"><img src="http://latex.codecogs.com/gif.latex?X_t" title="X_t" /></a> will include <a href="http://www.codecogs.com/eqnedit.php?latex=e_{t-1},...e_{t-3}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?e_{t-1},...e_{t-3}" title="e_{t-1},...e_{t-3}" /></a>, where <a href="http://www.codecogs.com/eqnedit.php?latex=e_i" target="_blank"><img src="http://latex.codecogs.com/gif.latex?e_i" title="e_i" /></a> is the difference between the moving average at the $i$th sample and the observed sample value.
 
-A specific model ARIMA(p,d,q) of a time series $y_t$ can be written as:
+A specific model ARIMA(_p,d,q_) of a time series <a href="http://www.codecogs.com/eqnedit.php?latex=y_t" target="_blank"><img src="http://latex.codecogs.com/gif.latex?y_t" title="y_t" /></a> can be written as:
 
-$$(1~−~\phi_1 B~−~...~−~\phi_p B^p)~(1~−~B)^d~y_t~=~c~+~(1~+~\theta_1 B~+~...~+~\theta_q B^q)~e_t$$
+<a href="http://www.codecogs.com/eqnedit.php?latex=(1~-~\phi_1&space;B~-~...~-~\phi_p&space;B^p)~(1~-~B)^d~y_t~=~c~&plus;~(1~&plus;~\theta_1&space;B~&plus;~...~&plus;~\theta_q&space;B^q)~e_t" target="_blank"><img src="http://latex.codecogs.com/gif.latex?(1~-~\phi_1&space;B~-~...~-~\phi_p&space;B^p)~(1~-~B)^d~y_t~=~c~&plus;~(1~&plus;~\theta_1&space;B~&plus;~...~&plus;~\theta_q&space;B^q)~e_t" title="(1~-~\phi_1 B~-~...~-~\phi_p B^p)~(1~-~B)^d~y_t~=~c~+~(1~+~\theta_1 B~+~...~+~\theta_q B^q)~e_t" /></a>
 
 where:
-  * $B$ is the backshift operator (for example, $B(y_t)~=~y_{t-1}$)
-  * $\phi_i$ are the parameters of the Auto-Regressive part of the model
-  * $\theta_i$ are the parameters of the Moving Average part of the model
-  * $c$ is a constant
-  * $e_t$ are white noise random errors (i.e., from a Gaussian distribution with zero mean).
+  * _B_ is the backshift operator (for example, <a href="http://www.codecogs.com/eqnedit.php?latex=B(y_t)&space;=&space;y_{t-1}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?B(y_t)&space;=&space;y_{t-1}" title="B(y_t) = y_{t-1}" /></a>)
+  * <a href="http://www.codecogs.com/eqnedit.php?latex=$\phi_i$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$\phi_i$" title="$\phi_i$" /></a> are the parameters of the Auto-Regressive part of the model
+  * <a href="http://www.codecogs.com/eqnedit.php?latex=$\theta_i$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$\theta_i$" title="$\theta_i$" /></a> are the parameters of the Moving Average part of the model
+  * <a href="http://www.codecogs.com/eqnedit.php?latex=$c$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$c$" title="$c$" /></a> is a constant
+  * <a href="http://www.codecogs.com/eqnedit.php?latex=$e_t$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$e_t$" title="$e_t$" /></a> are white noise random errors (i.e., from a Gaussian distribution with zero mean).
 
 Here the first parenthetical on the left is the AR(_p_) autoregressive component, the second parenthetical is the $d$ differencing component, and the right hand side is the MA(_q_) moving average component.
 
@@ -199,7 +201,7 @@ Regression trees are decision trees that are designed to approximate functions w
   1. Recursively paertitioning the space of predictor variables into distinct, non-overlapping regions.  
   2. Generating a model at each terminal node that specifies the predictor/target viirable mapping for the partition.
   
-Shown below is a regression tree model of a simplified data set with only one predictor variable $x$:
+Shown below is a regression tree model of a simplified data set with only one predictor variable <a href="http://www.codecogs.com/eqnedit.php?latex=x" target="_blank"><img src="http://latex.codecogs.com/gif.latex?x" title="x" /></a>:
 
 <p align="center">
 <img src="images/tree_plot.png", width="500">
@@ -207,11 +209,11 @@ Shown below is a regression tree model of a simplified data set with only one pr
 
 In practice a single regression tree is almost never used alone.  Instead, ensembles of many trees are used to generate a more powerful model by combining several weaker tree models.  The "gradient boosting" method used by _HarvestHerald_ is an example ensembling method.
 
-How does the model decide where to partition the predictor variables?  edges are selected to minimize an _objective function_ consisting of a _loss term_ $L(y, \hat{y})$ and a _regularization term_ $\omega(\theta)$:
+How does the model decide where to partition the predictor variables?  edges are selected to minimize an _objective function_ consisting of a _loss term_ <a href="http://www.codecogs.com/eqnedit.php?latex=L(y,&space;\hat{y})" target="_blank"><img src="http://latex.codecogs.com/gif.latex?L(y,&space;\hat{y})" title="L(y, \hat{y})" /></a> and a _regularization term_ <a href="http://www.codecogs.com/eqnedit.php?latex=\Omega(\theta)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\Omega(\theta)" title="\Omega(\theta)" /></a>:
 
-$$Obj(\theta)~=~L(y, \hat{y})~+~\omega(\theta)$$
+<a href="http://www.codecogs.com/eqnedit.php?latex=$$Obj(\theta)~=~L(y,&space;\hat{y})~&plus;~\Omega(\theta)$$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$$Obj(\theta)~=~L(y,&space;\hat{y})~&plus;~\Omega(\theta)$$" title="$$Obj(\theta)~=~L(y, \hat{y})~+~\Omega(\theta)$$" /></a>
 
-The loss function in $L$ quantifies how well the model fits the observed data.  The regularization term $\omega$ penalizes models that are overly-complex to avoid overfitting.  In our case we use a "gadient boosted" regressor called XGBRegressor, with a mean square error loss function and L1 and L2 regularization.  
+The loss function in <a href="http://www.codecogs.com/eqnedit.php?latex=L" target="_blank"><img src="http://latex.codecogs.com/gif.latex?L" title="L" /></a> quantifies how well the model fits the observed data.  The regularization term <a href="http://www.codecogs.com/eqnedit.php?latex=\omega" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\Omega" title="\Omega" /></a> penalizes models that are overly-complex to avoid overfitting.  In our case we use a "gadient boosted" regressor called XGBRegressor, with a mean square error loss function and L1 and L2 regularization.  
 
 A "gradient boosting" algorithm seeks to mimimize the loss function by first using weak learners to make predictions (such as a greedily constructed decision tree), then adding new weak learners to the model to correct the residual errors of all previous trees.  I won't descibe gradient boosting in detail here, but some helpful introductions to gradient boosted regression can be found in [this Python tutorial](https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/) and [XGBoost's introductory documentation](http://xgboost.readthedocs.io/en/latest/model.html).
 
