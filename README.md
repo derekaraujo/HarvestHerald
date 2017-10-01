@@ -287,7 +287,7 @@ Installing _HarvestHerald_ requires the following steps:
 
   1. __Install the required Python libraries__ listed in the [requirements.txt file](https://github.com/derekaraujo/HarvestHerald/blob/master/requirements.txt).
   2. __Install [PostgreSQL](https://www.postgresql.org/)__ to allow you to build a SQL data base from the raw data files.
-  3. __Obtain the required raw data files.__ The raw weather and subsidy data files are available in this repository's [`data` folder](https://github.com/derekaraujo/HarvestHerald/tree/master/data).  __The historical commodity futures data is not posted here__, as they are available from [Investing.com](https://www.investing.com/commodities/) only upon signing up for a free account.  Once you do so, you can download the relevant files from the following links (CME or CBOT ticker symbol indicated in parentheses):
+  3. __Obtain the required raw data files.__ The raw weather and subsidy data files are available in this repository's [`data` folder](https://github.com/derekaraujo/HarvestHerald/tree/master/data).  __The historical commodity futures data is not posted here__, as they are available from [Investing.com](https://www.investing.com/commodities/) only upon signing up for a free account.  Once you do so, you can download the relevant files from the following links (CME or CBOT ticker symbol indicated in parentheses) and place them in the `data` folder:
       * Ethanol (1ZEc1) (relevant to corn): https://www.investing.com/commodities/ethanol-futures-historical-data
       * US Corn (ZCZ7): https://www.investing.com/commodities/us-corn
       * US Cotton #2 (CTZ7): https://www.investing.com/commodities/us-cotton-no.2-historical-data
