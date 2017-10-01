@@ -201,7 +201,7 @@ class ARIMAForecaster:
         error = mean_squared_error(self.test, predictions)
         self.rmse = np.sqrt(error)
 
-    def plot_forecast(self, plot_confidence_intervals=True):
+    def plot_forecast(self, plot_confidence_intervals=True, save=False, show=True):
         '''
         A method to plot the model's training and test sets, predictions,
         and 95% confidence interval.
@@ -222,8 +222,10 @@ class ARIMAForecaster:
         pl.title('ARIMA Model Forecast: RMSE = %.2f' % rmse)
         pl.legend(loc='best'); pl.xticks(rotation=30., ha='right')
         pl.ylabel(ylabel)
-        pl.savefig('arima_forecast.png')
-        pl.show()
+        if save:
+            pl.savefig('arima_forecast.png')
+        if show:
+            pl.show()
     
     def examine_residuals(self):
         '''
