@@ -209,7 +209,7 @@ In practice a single regression tree is almost never used alone.  Instead, ensem
 
 How does the model decide where to partition the predictor variables?  edges are selected to minimize an _objective function_ consisting of a _loss term_ $L(y, \hat{y})$ and a _regularization term_ $\omega(\theta)$:
 
-<img src="https://latex.codecogs.com/gif.latex?Obj(\theta)~=~L(y, \hat{y})~+~\omega(\theta)/>
+$$Obj(\theta)~=~L(y, \hat{y})~+~\omega(\theta)$$
 
 The loss function in $L$ quantifies how well the model fits the observed data.  The regularization term $\omega$ penalizes models that are overly-complex to avoid overfitting.  In our case we use a "gadient boosted" regressor called XGBRegressor, with a mean square error loss function and L1 and L2 regularization.  
 
