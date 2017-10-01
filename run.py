@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/env python
 
 from data_cleaning import data_cleaner
 from feature_engineering import feature_engineer
