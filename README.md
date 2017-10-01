@@ -38,6 +38,8 @@ The size and nature of farm subsidy payments depend on a variety of interdepende
   * If the crop sells above the price floor, the farmer receives no price support subsidy, but is happy to sell to the purchaser at a premium.  
   * If an adverse weather event or other natural disaster prevents the farmer from bringing the crop to market in the first place, the farmer receives no price support subsidy payment _and_ no payment for the crop.  Instead,  disaster subsidy payments allow the farmer to recoup large losses.  Federally-subsidized crop loss insurance also helps offset losses.
 
+[![](https://github.com/derekaraujo/HarvestHerald/blob/master/subsidy_map/subsidy_map.html)](https://github.com/derekaraujo/HarvestHerald/blob/master/subsidy_map/subsidy_map.html)
+
 ## _HarvestHerald:_ a tool to forecast farm subsidies using public data sets <a name="part1.2"></a>
 
 This repository contains the Python code for _HarvestHerald_, a three-week project I undertook as a Fellow at [Insight Data Science](http://insightdatascience.com/).  _HarvestHerald_ builds forecasting models using public information from three categories of relevant data: farm subsidy payments, adverse weather events, and commodity futures prices.  
