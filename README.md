@@ -38,10 +38,10 @@ The size and nature of farm subsidy payments depend on a variety of interdepende
   * If the crop sells above the price floor, the farmer receives no price support subsidy, but is happy to sell to the purchaser at a premium.  
   * If an adverse weather event or other natural disaster prevents the farmer from bringing the crop to market in the first place, the farmer receives no price support subsidy payment _and_ no payment for the crop.  Instead,  disaster subsidy payments allow the farmer to recoup large losses.  Federally-subsidized crop loss insurance also helps offset losses.
 
-The map below displays the total agricultural subsidy for each U.S. county in 2012.  Clicking on it will bring you to an interactive map hosted on this repository:
+The map below displays the total agricultural subsidy for each U.S. county in 2012.  An interactive HTML version of the map is hosted in the `subsidy_map` folder on this repository:
 
 <p align="center">
-<img src="images/subsidy_map_thumbnail.png" width="400">
+<img src="images/subsidy_map_thumbnail.png" width="600">
 </p>
 
 ## _HarvestHerald:_ a tool to forecast farm subsidies using public data sets <a name="part1.2"></a>
