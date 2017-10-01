@@ -206,6 +206,8 @@ Shown below is a regression tree model of a simplified data set with only one pr
 <p align="center">
 <img src="images/tree_plot.png", width="500">
 </p>
+<br>
+<center>_A single regression tree model for a simplified data set with one predictor variable._</center>
 
 In practice a single regression tree is almost never used alone.  Instead, ensembles of many trees are used to generate a more powerful model by combining several weaker tree models.  The "gradient boosting" method used by _HarvestHerald_ is an example ensembling method.
 
