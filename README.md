@@ -163,7 +163,7 @@ Rather than choose between these competing camps, I ultimately decided to try bo
 
 Auto-Regressive Integrated Moving Average models use the structure of previous samples in a time series to generate forecasts of future time samples.  ARIMA models can be thought of as a predictive model in which the predicted value is a linear sum of of lags of the dependent variable and lags of the forecast errors:
 
-<img src="https://latex.codecogs.com/gif.latex?$$\text{predicted y = constant + [weighted sum of lagged values of y] + [weighted sum of lagged errors]}$$/>
+<center>predicted y = constant + [weighted sum of lagged values of y] + [weighted sum of lagged errors]</center>
 
 More formally, ARIMA models incorporate the following components:
 
@@ -174,18 +174,18 @@ More formally, ARIMA models incorporate the following components:
 Each feature above is specified in the model by setting a hyparameter:
   * __p ("lag order"):__ the number of lagged terms to include.
   * __d ("degree of differencing"):__ the number of times to difference the raw time stream.
-  * __q ("order of moving average"):__ the number of moving average terms to include.  For example, if _q_ is 3, the predictors for <img src="https://latex.codecogs.com/gif.latex?X_t/> will include <img src="https://latex.codecogs.com/gif.latex?e_{t-1}...e_{t-3}/>, where <img src="https://latex.codecogs.com/gif.latex?e_i/> is the difference between the moving average at the $i$th sample and the observed sample value.
+  * __q ("order of moving average"):__ the number of moving average terms to include.  For example, if _q_ is 3, the predictors for $X_t$ will include $e_{t-1}...e_{t-3}$, where $e_i$ is the difference between the moving average at the $i$th sample and the observed sample value.
 
-A specific model ARIMA(p,d,q) of a time series <img src="https://latex.codecogs.com/gif.latex?y_t/> can be written as:
+A specific model ARIMA(p,d,q) of a time series $y_t$ can be written as:
 
-<img src="https://latex.codecogs.com/gif.latex?$$(1~−~\phi_1 B~−~...~−~\phi_p B^p)~(1~−~B)^d~y_t~=~c~+~(1~+~\theta_1 B~+~...~+~\theta_q B^q)~e_t$$/>
+$$(1~−~\phi_1 B~−~...~−~\phi_p B^p)~(1~−~B)^d~y_t~=~c~+~(1~+~\theta_1 B~+~...~+~\theta_q B^q)~e_t$$
 
 where:
-  * <img src="https://latex.codecogs.com/gif.latex?$B$/> is the backshift operator (for example, <img src="https://latex.codecogs.com/gif.latex?$B(y_t)~=~y_{t-1}$/>)
-  * <img src="https://latex.codecogs.com/gif.latex?$\phi_i$/> are the parameters of the Auto-Regressive part of the model
-  * <img src="https://latex.codecogs.com/gif.latex?$\theta_i$/> are the parameters of the Moving Average part of the model
-  * <img src="https://latex.codecogs.com/gif.latex?$c$/> is a constant
-  * <img src="https://latex.codecogs.com/gif.latex?$e_t$/> are white noise random errors (i.e., from a Gaussian distribution with zero mean).
+  * $B$ is the backshift operator (for example, $B(y_t)~=~y_{t-1}$)
+  * $\phi_i$ are the parameters of the Auto-Regressive part of the model
+  * $\theta_i$ are the parameters of the Moving Average part of the model
+  * $c$ is a constant
+  * $e_t$ are white noise random errors (i.e., from a Gaussian distribution with zero mean).
 
 Here the first parenthetical on the left is the AR(_p_) autoregressive component, the second parenthetical is the $d$ differencing component, and the right hand side is the MA(_q_) moving average component.
 
@@ -199,7 +199,7 @@ Regression trees are decision trees that are designed to approximate functions w
   1. Recursively paertitioning the space of predictor variables into distinct, non-overlapping regions.  
   2. Generating a model at each terminal node that specifies the predictor/target viirable mapping for the partition.
   
-Shown below is a regression tree model of a simplified data set with only one predictor variable <img src="https://latex.codecogs.com/gif.latex?$x$/>:
+Shown below is a regression tree model of a simplified data set with only one predictor variable $x$:
 
 <p align="center">
 <img src="images/tree_plot.png", width="500">
@@ -207,9 +207,9 @@ Shown below is a regression tree model of a simplified data set with only one pr
 
 In practice a single regression tree is almost never used alone.  Instead, ensembles of many trees are used to generate a more powerful model by combining several weaker tree models.  The "gradient boosting" method used by _HarvestHerald_ is an example ensembling method.
 
-How does the model decide where to partition the predictor variables?  edges are selected to minimize an _objective function_ consisting of a _loss term_ <img src="https://latex.codecogs.com/gif.latex?$L(y, \hat{y})$/> and a _regularization term_ <img src="https://latex.codecogs.com/gif.latex?$\omega(\theta)$/>:
+How does the model decide where to partition the predictor variables?  edges are selected to minimize an _objective function_ consisting of a _loss term_ $L(y, \hat{y})$ and a _regularization term_ $\omega(\theta)$:
 
-<img src="https://latex.codecogs.com/gif.latex?$$Obj(\theta)~=~L(y, \hat{y})~+~\omega(\theta)$$/>
+$$Obj(\theta)~=~L(y, \hat{y})~+~\omega(\theta)$$
 
 The loss function in $L$ quantifies how well the model fits the observed data.  The regularization term $\omega$ penalizes models that are overly-complex to avoid overfitting.  In our case we use a "gadient boosted" regressor called XGBRegressor, with a mean square error loss function and L1 and L2 regularization.  
 
