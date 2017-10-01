@@ -294,4 +294,4 @@ Installing _HarvestHerald_ requires the following steps:
       * US Wheat (ZWZ7): https://www.investing.com/commodities/us-wheat
       * Rough Rice (RRX7): https://www.investing.com/commodities/rough-rice-historical-data
       * Soybeans (ZSX7): https://www.investing.com/commodities/us-soybeans-historical-data
-  4. __Run the autmated run.py executable.__  This will build the SQL database using the code in the `1_data_cleaning` folder; engineer features using the code in the `2_feature_engineering` folder; build, train, and test the ARIMA and XGBRegressor models; and generate the accompanying plots.
+  4. __Run the autmated run.py executable.__  This will build the SQL database using the code in the `data_cleaning` folder; engineer features using the code in the `feature_engineering` folder; build, train, and test the ARIMA and XGBRegressor models contained in the `forecasting` folder; and generate the accompanying plots.
