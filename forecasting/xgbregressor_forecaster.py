@@ -19,6 +19,8 @@ class XGBRegressorForecaster:
     '''
     
     def __init__(self, dataframe, target_column='mean_transaction_amount', train_columns=None):
+        self.n_estimators = 100
+        self.max_depth = 20
         self.dataframe = dataframe
         self.target_column = target_column
         if train_columns != None:
@@ -101,7 +103,7 @@ class XGBRegressorForecaster:
                 if verbose:
                     print('XGB%s RMSE=%s' % (best_params, rmse))
         if verbose:
-            print 'Best XGB%s RMSE=%s' % (best_params, best_rmse)
+            print 'Best XGB: [max_depth, n_estimators]=%s, RMSE=%s' % (best_params, best_rmse)
             
         self.max_depth = best_params[0]
         self.n_estimators = best_params[1]
@@ -222,10 +224,10 @@ class XGBRegressorForecaster:
         pl.ylabel(ylabel)    
         pl.legend()
         pl.xticks(rotation=30, ha='right')
-        if show:
-            pl.show()
         if save:
             pl.savefig('XGB_regressor_forecast.png')
+        if show:
+            pl.show()
         
     def plot_feature_importances(self, names, importances, indices, show=True, save=False):
         '''
@@ -237,10 +239,10 @@ class XGBRegressorForecaster:
         sns.set_context("poster", font_scale=1.5)
         sns.set_color_codes("muted")
         sns.barplot(importances[indices][:10], names[:10], palette='Blues_d')
-        if show:
-            pl.show()
         if save:
             pl.savefig('feature_importances.png')
+        if show:
+            pl.show()
     
     # Wrapper function:
     
@@ -253,6 +255,6 @@ class XGBRegressorForecaster:
         self.walk_forward_forecast()
         names, importances, indices = self.get_feature_importances()
         self.plot_feature_importances(names, importances, indices)
-        lower_conf_intervals, upper_conf_intervals =             self.generate_bootstrap_confidence_intervals()
+        lower_conf_intervals, upper_conf_intervals = self.generate_bootstrap_confidence_intervals()
         self.plot_forecast(lower_conf_intervals=lower_conf_intervals, 
                            upper_conf_intervals=upper_conf_intervals)

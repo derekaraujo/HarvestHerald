@@ -62,7 +62,7 @@ class FeatureEngineer:
     def add_transaction_year(self):
         '''
         A method to parse the subsidy payment transaction date and add
-        the trasaction year as a new feature.
+        the transaction year as a new feature.
         '''
         self.subsidies_df['transaction_year'] = \
                 self.subsidies_df.transaction_date.apply(lambda x: x.year)

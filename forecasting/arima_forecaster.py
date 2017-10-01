@@ -242,14 +242,17 @@ class ARIMAForecaster:
         
     # Wrapper function:
     
-    def run(self):
+    def run(self, decompose_seasonality=False, test_stationarity=False, do_gridsearch=True):
         '''
         A wrapper method to run the forecasting pipeline.
         '''
         self.form_training_and_test_sets()
-        #self.decompose_seasonality()
-        self.test_differenced_timestream_stationarity()
-        #self.do_hyperparameter_grid_search()
+        if decompose_seasonality:
+            self.decompose_seasonality()
+        if test_stationarity:
+            self.test_differenced_timestream_stationarity()
+        if do_gridsearch:
+            self.do_hyperparameter_grid_search()
         self.walk_forward_forecast(self.p_hyperparameter, self.d_hyperparameter,
                                    self.q_hyperparameter)
         self.plot_forecast()

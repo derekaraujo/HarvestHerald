@@ -99,7 +99,10 @@ class DataCleaner:
         return subsidies
 
     def get_state_county_df(self):
-        state_county_df = pd.read_csv('US_county_FIPS.csv')
+        try:
+            state_county_df = pd.read_csv('US_county_FIPS.csv')
+        except:
+            state_county_df = pd.read_csv('./data_cleaning/US_county_FIPS.csv')
         state_county_df.columns = ['state','county','state_code','county_code']
         state_county_df.county = state_county_df.county.apply(lambda x: x+' County')
         return state_county_df
@@ -222,8 +225,8 @@ class DataCleaner:
     def write_PostgreSQL_db(self, weather_df, subsidies_df, futures_df):
         raw_input('Please launch Postgres, start your server, and press Enter to continue . . .') 
         dbname = 'agricultural_subsidies_db'
-        username = raw_input('Enter your PostgreSQL username:')
-        engine = create_engine('postgres://%s@localhost/%s' % (username, dbname))
+        self.username = raw_input('Enter your PostgreSQL username:')
+        engine = create_engine('postgres://%s@localhost/%s' % (self.username, dbname))
         print 'Creating Postgres database %s' % engine.url
         if not database_exists(engine.url):
             create_database(engine.url)
