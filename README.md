@@ -174,16 +174,16 @@ More formally, ARIMA models incorporate the following components:
   * __Moving Average:__ the dependence between an observed sample and the residual errors from a moving average model applied to lagged observations.
 
 Each feature above is specified in the model by setting a hyparameter:
-  * __p (lag order):__ the number of lagged terms to include.
-  * __d (degree of differencing):__ the number of times to difference the raw time stream.
-  * __q (order of moving average):__ the number of moving average terms to include.  For example, if _q_ is 3, the predictors for <a href="http://www.codecogs.com/eqnedit.php?latex=X_t" target="_blank"><img src="http://latex.codecogs.com/gif.latex?X_t" title="X_t" /></a> will include <a href="http://www.codecogs.com/eqnedit.php?latex=e_{t-1},...e_{t-3}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?e_{t-1},...e_{t-3}" title="e_{t-1},...e_{t-3}" /></a>, where <a href="http://www.codecogs.com/eqnedit.php?latex=e_i" target="_blank"><img src="http://latex.codecogs.com/gif.latex?e_i" title="e_i" /></a> is the difference between the moving average at the $i$th sample and the observed sample value.
+  * ___p_ (lag order):__ the number of lagged terms to include.
+  * ___d_ (degree of differencing):__ the number of times to difference the raw time stream.
+  * ___q_ (order of moving average):__ the number of moving average terms to include.  For example, if _q_ is 3, the predictors for <a href="http://www.codecogs.com/eqnedit.php?latex=X_t" target="_blank"><img src="http://latex.codecogs.com/gif.latex?X_t" title="X_t" /></a> will include <a href="http://www.codecogs.com/eqnedit.php?latex=e_{t-1},...e_{t-3}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?e_{t-1},...e_{t-3}" title="e_{t-1},...e_{t-3}" /></a>, where <a href="http://www.codecogs.com/eqnedit.php?latex=e_i" target="_blank"><img src="http://latex.codecogs.com/gif.latex?e_i" title="e_i" /></a> is the difference between the moving average at the $i$th sample and the observed sample value.
 
 A specific model ARIMA(_p,d,q_) of a time series <a href="http://www.codecogs.com/eqnedit.php?latex=y_t" target="_blank"><img src="http://latex.codecogs.com/gif.latex?y_t" title="y_t" /></a> can be written as:
 
 <a href="http://www.codecogs.com/eqnedit.php?latex=(1~-~\phi_1&space;B~-~...~-~\phi_p&space;B^p)~(1~-~B)^d~y_t~=~c~&plus;~(1~&plus;~\theta_1&space;B~&plus;~...~&plus;~\theta_q&space;B^q)~e_t" target="_blank"><img src="http://latex.codecogs.com/gif.latex?(1~-~\phi_1&space;B~-~...~-~\phi_p&space;B^p)~(1~-~B)^d~y_t~=~c~&plus;~(1~&plus;~\theta_1&space;B~&plus;~...~&plus;~\theta_q&space;B^q)~e_t" title="(1~-~\phi_1 B~-~...~-~\phi_p B^p)~(1~-~B)^d~y_t~=~c~+~(1~+~\theta_1 B~+~...~+~\theta_q B^q)~e_t" /></a>
 
 where:
-  * _B_ is the backshift operator (for example, <a href="http://www.codecogs.com/eqnedit.php?latex=B(y_t)&space;=&space;y_{t-1}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?B(y_t)&space;=&space;y_{t-1}" title="B(y_t) = y_{t-1}" /></a>)
+  * <a href="http://www.codecogs.com/eqnedit.php?latex=B" target="_blank"><img src="http://latex.codecogs.com/gif.latex?B" title="B" /></a> is the backshift operator (for example, <a href="http://www.codecogs.com/eqnedit.php?latex=B(y_t)&space;=&space;y_{t-1}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?B(y_t)&space;=&space;y_{t-1}" title="B(y_t) = y_{t-1}" /></a>)
   * <a href="http://www.codecogs.com/eqnedit.php?latex=$\phi_i$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$\phi_i$" title="$\phi_i$" /></a> are the parameters of the Auto-Regressive part of the model
   * <a href="http://www.codecogs.com/eqnedit.php?latex=$\theta_i$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$\theta_i$" title="$\theta_i$" /></a> are the parameters of the Moving Average part of the model
   * <a href="http://www.codecogs.com/eqnedit.php?latex=$c$" target="_blank"><img src="http://latex.codecogs.com/gif.latex?$c$" title="$c$" /></a> is a constant
