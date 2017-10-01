@@ -45,7 +45,7 @@ This repository contains the Python code for _HarvestHerald_, a three-week proje
 Presently the Congressional Budget Office produces only yearly forecasts of agricultural subsidy payments, which are updated every few months.  _HarvestHerald_ aims to provide dynamic forecasts on a monthly basis.  
 
 <p align="center">
-<img src="HarvestHerald/images/pipeline.png" width="350">
+<img src="images/pipeline.png" width="350">
 </p>
 
 # 2. The Data <a name="part2"></a>
@@ -86,7 +86,7 @@ I should give a big shout-out to [Enigma](https://www.enigma.com/), who contacte
   
 
 <p align="center">
-<img src="HarvestHerald/images/time_lag.png" width="450">
+<img src="images/time_lag.png" width="450">
 </p>
 
 __Data scarcity on a per-county basis:__ 
@@ -96,7 +96,7 @@ When I began this project I intended to focus on subsidy payments for an individ
 A look at the data shows, however, that the subsidy payments within individual counties is sparse and noise-dominated, even when aggregating subsidies for all crop types.  When the models described below are used to forecast subsidies within individual counties, the forecasts yield little predictive value.  
 
 <p align="center">
-<img src="HarvestHerald/images/data_scarcity.png" width="550">
+<img src="images/data_scarcity.png" width="550">
 </p>
 
 ## The path forward: agrregation and monthly binning <a name="part2.3"></a>
@@ -115,7 +115,7 @@ Feature engineering involved designing more than 600 features for each subsidy p
   2. Binning the records into one-month bins and recording the mean, standard deviation, and range of each feature
 
 <p align="center">
-<img src="HarvestHerald/images/feature_engineering.png" width="550">
+<img src="images/feature_engineering.png" width="550">
 </p>
 
 The engineered features for individual subsidy payment records included the following:
@@ -202,7 +202,7 @@ Regression trees are decision trees that are designed to approximate functions w
 Shown below is a regression tree model of a simplified data set with only one predictor variable $x$:
 
 <p align="center">
-<img src="HarvestHerald/images/tree_plot.png", width="500">
+<img src="images/tree_plot.png", width="500">
 </p>
 
 In practice a single regression tree is almost never used alone.  Instead, ensembles of many trees are used to generate a more powerful model by combining several weaker tree models.  The "gradient boosting" method used by _HarvestHerald_ is an example ensembling method.
@@ -236,7 +236,7 @@ Instead, time series forecasting typically validates a model by one of two metho
     * Report the root-mean-squared error (RMSE) as a measure of the model's performance on varying time scales.
 
 <p align="center">
-<img src="HarvestHerald/images/walk_forward.png", width="400">
+<img src="images/walk_forward.png", width="400">
 </p>
 
 I decided to use walk-forward validation for this project, as this is how such a model would be used in real life: the model would be updated and re-trained as new data samples are observed.
@@ -246,7 +246,7 @@ I decided to use walk-forward validation for this project, as this is how such a
 How do the ARIMA and XGBRegressor models fare when tested?  Here are the results for the two, displayed side-by-side:
 
 <p align="center">
-<img src="HarvestHerald/images/results1.png" width="700">
+<img src="images/results1.png" width="700">
 </p>
 
 Despite the substantial error at each time sample, the predictions for each (red) follow the overall trend of the test set (cyan).  The XGBRegressor model also seems to be faring somewhat better than the ARMA model: the RMSE is smaller.
@@ -254,7 +254,7 @@ Despite the substantial error at each time sample, the predictions for each (red
 I was frankly astonished to obtain results this reasonable, given the challenges posed by the missing information (see Part 2 above) and the required monthly binning.  But as any good physicist can tell you, predictions are meaningless if they don't come with error bars.  Let's see what these plots look like when we include a 95% confidence interval:
 
 <p align="center">
-<img src="HarvestHerald/images/results2.png" width="700">
+<img src="images/results2.png" width="700">
 </p>
 
 Unfortunately the 95% confidence interval is rather large: it spans most of the range of the training data itself.  This means we should take our predictions with a hefty grain of salt.
@@ -276,7 +276,7 @@ This project was completed on an ultra-tight timeline of less than three weeks. 
   * __Incorporating economic forecasts of price movements.__  Economic forecasts tend to be uncertain, but a range of forecasted values might be produced using a range of price forecasts.
 
 <p align="center">
-<img src="HarvestHerald/images/subsidy.jpeg" width="350">
+<img src="images/subsidy.jpeg" width="350">
 </p>
 
 # 7. Installation Guide <a name="part7"></a>
