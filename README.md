@@ -201,14 +201,14 @@ Regression trees are decision trees that are designed to approximate functions w
   1. Recursively paertitioning the space of predictor variables into distinct, non-overlapping regions.  
   2. Generating a model at each terminal node that specifies the predictor/target viirable mapping for the partition.
   
-Shown below is a regression tree model of a simplified data set with only one predictor variable <a href="http://www.codecogs.com/eqnedit.php?latex=x" target="_blank"><img src="http://latex.codecogs.com/gif.latex?x" title="x" /></a>.  The observed data (blue) is partitioned into multiple small regions; a model is fit for the data in each region (in this case a constant); when the models are stitched together, the result (red) is a non-linear function that closely approximates the trend of the observed data:
+Shown below is a regression tree model of a simplified data set with only one predictor variable <a href="http://www.codecogs.com/eqnedit.php?latex=x" target="_blank"><img src="http://latex.codecogs.com/gif.latex?x" title="x" /></a>.  The observed data (blue) is partitioned into multiple small regions; a model is fit for the data in each region; when the models are stitched together, the result (red) is a non-linear function that closely approximates the trend of the observed data:
 
 <p align="center">
 <img src="images/tree_plot.png", width="500">
 </p>
 <p align="center"><i>A single regression tree model for a simplified data set with one predictor variable.</i></p>
 
-In practice a single regression tree is almost never used alone.  Instead, ensembles of many trees are used to generate a more powerful model by combining several weaker tree models.  The "gradient boosting" method used by _HarvestHerald_ is an example ensembling method.
+In practice a single regression tree is almost never used alone.  Instead, __ensembles of many trees__ are used to generate a more powerful model by combining several weaker tree models.  The "gradient boosting" method used by _HarvestHerald_ is an example ensembling method.
 
 How does the model decide where to partition the predictor variables?  The partition edges are selected to minimize an _objective function_ consisting of a _loss term_ <a href="http://www.codecogs.com/eqnedit.php?latex=L(y,&space;\hat{y})" target="_blank"><img src="http://latex.codecogs.com/gif.latex?L(y,&space;\hat{y})" title="L(y, \hat{y})" /></a> and a _regularization term_ <a href="http://www.codecogs.com/eqnedit.php?latex=\Omega(\theta)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\Omega(\theta)" title="\Omega(\theta)" /></a>:
 
