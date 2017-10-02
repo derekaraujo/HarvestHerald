@@ -107,7 +107,7 @@ A look at the data shows, however, that the subsidy payments within individual c
 
 ## The path forward: agrregation and monthly binning <a name="part2.3"></a>
 
-To deal with the challenges described above, I was forced to aggregate enough data to produce sufficient signal for a forecasting model to sniff out.  I decided to __aggregate subsidy payment data across counties for a given crop, and to bin the data by month.__  I would then target the monthly average subsidy payment for forecasting.
+To deal with the challenges described above, I attempted to aggregate enough data to produce sufficient signal for a forecasting model to sniff out.  I decided to __aggregate subsidy payment data across counties for a given crop, and to bin the data by month.__  I would then target the monthly average subsidy payment for forecasting.
 
 My initial instinct was that forecasting would remain an intractable problem.  Aggregating and binning the data would reduce the variability of the subsidy payment samples, but also threatened to wash out any meaningful signal.  The effect of an adverse weather event, after all, is tied to crop yields in specific counties.  
 
@@ -115,7 +115,7 @@ Ultimately I decided to soldier on, with the hope that sufficiently clever featu
 
 # 3. Feature Engineering <a name="part3"></a>
 
-Feature engineering involved designing more than 600 features for each subsidy payment record that are relevant to the size of the subsidy payment.  Feature engineering proceeds in two steps:
+Feature engineering involved designing more than 600 features relevant to the size of the subsidy payments.  Feature engineering proceeds in two steps:
 
   1. Generating a new numerical, categorical, or binary feature for each payment record
   2. Binning the records into one-month bins and recording the mean, standard deviation, and range of each feature
@@ -130,13 +130,13 @@ The engineered features for individual subsidy payment records included the foll
     * The number of days into the year (out of 365) that the payment was made, modulated by a sine or cosine function to cycle at day 1/day 365
     * The mean, standard deviation, and range of crop futures prices during a 30-day lookback window preceeding a subsidy payment
   * __Categorical:__ One-hot-encoded features constituted the bulk of the 600+ engineered features.  These included, for example, 0s and 1s indicating the subsidy program type, the farm's state, and the farm's county.
-  * __Binary:__ I added a single binary feature to indicate whether the "customer number" for the subsidy payment began with an "A" or with a "B".  I'm still tracking down what this precisely indicates, but have a hunch that it has to do with the type of farm receiving the subsidy payment (e.g., agricultural conglomerate vs individual farm).
+  * __Binary:__ I added a single binary feature to indicate whether the "customer number" for the subsidy payment began with an "A" or with a "B".  I'm still tracking down what this precisely indicates, but suspect it relates to the type of farm receiving the subsidy payment (e.g., agricultural conglomerate vs individual farm).
 
-The regression model uses the binned mean, standard deviation, and range values as parameters.  The idea is to provide the model with some sense of the distribution of values in each time bin, in the hope that this will provide enough signal to make a meaningful forecast of future time bins.
+The regression model uses the binned mean, standard deviation, and range values as parameters.  The idea is to provide the model with some sense of the distribution of feature values in each time bin, in the hope that this will provide enough signal to make meaningful forecasts.
 
 # 4. Forecasting Models <a name="part4"></a>
 
-Being new to time stream forecasting, I made sure to consult several professional data scientists when selecting a time stream forecasting model.  They fell broadly into two camps:
+Being new to time stream forecasting, I made sure to consult several professional data scientists when selecting a  forecasting model.  They fell broadly into two camps:
 
 __Camp 1: traditional statistical analysts.__  
 
