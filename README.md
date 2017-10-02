@@ -86,9 +86,9 @@ Time series forecasting in general is known to be a difficult problem.  In this 
 
 __Unknown and variable time lags:__ 
 
-The subsidy payment data contain the date of the _payment_ to the farm.  But the size of the subsidy depends on the date of the farmer's _loss_.  For price support subsidies, the date of loss is the date on which the farm sold the crop below the price floor.  Unfortunately, __the lag between the loss and the subsidy payment is unknown,__ and can vary from months up to a year depending on the commodity, the subsidy program, and the time required to file and process the required paperwork.  As a result, __both the price and the volume of crop are unknown.__
+The subsidy payment data contain the date of the _payment_ to the farm.  But the size of the subsidy depends on the date of the farmer's _loss_.  For price support subsidies, the date of loss is the date on which the farm sold the crop below the price floor.  __The lag between the loss and the subsidy payment is unknown,__ and can vary from months up to a year depending on the commodity, the subsidy program, and the time required to file and process the required paperwork.  As a result, __both the price and the volume of crop are unknown.__
 
-I should give a big shout-out to [Enigma](https://www.enigma.com/), who contacted the USDA on my behalf to obtain this missing information.  It unfortunately remains unavailable.
+I should give a big shout-out to [Enigma](https://www.enigma.com/), who contacted the USDA on my behalf to obtain this missing information.  It remains unavailable, but would likely improve the modeling substantially if it can be located.
   
 
 <p align="center">
@@ -227,7 +227,6 @@ A "gradient boosting" algorithm seeks to mimimize the loss function by first usi
 XGBRegressor includes multiple hyperparameters that can be tuned, including the number of trees to ensemble (`n_estimator`) and the maximum depth of the tree (`max_depth`).  _HarvestHerald_ performs an automated grid search for the optimal values.
 
 
-
 ## Walk-forward validation <a name="part4.3"></a>
 
 The randomized sampling cross-validation techniques typically used in many machine learning applications are unavailable for time series forecasting models.  This is because the samples in a time series are not independent.  A time series is autocorrelated: the value of a given sample is dependent on the value at other samples.  
@@ -260,13 +259,13 @@ How do the ARIMA and XGBRegressor models fare when tested?  Here are the results
 
 Despite the substantial error at each time sample, the predictions for each (red) follow the overall trend of the test set (cyan).  The XGBRegressor model also seems to be faring somewhat better than the ARMA model: the RMSE is smaller.
 
-I was frankly astonished to obtain results this reasonable, given the challenges posed by the missing information (see Part 2 above) and the required monthly binning.  But as any good physicist can tell you, predictions are meaningless if they don't come with error bars.  Let's see what these plots look like when we include a 95% confidence interval:
+Note that the results seem reasonable, despite the challenges posed by the missing information (see Part 2 above) and the required monthly binning.  But as any good physicist can tell you, predictions are meaningless if they don't come with error bars.  Let's see what these plots look like when we include a 95% confidence interval:
 
 <p align="center">
 <img src="images/results2.png" width="700">
 </p>
 
-Unfortunately the 95% confidence interval is rather large: it spans most of the range of the training data itself.  This means we should take our predictions with a hefty grain of salt.
+The 95% confidence interval is rather large: it spans most of the range of the training data itself.  This means we should take our predictions with a hefty grain of salt.
 
 # 6. Conclusions and Future Work <a name="part6"></a>
 
