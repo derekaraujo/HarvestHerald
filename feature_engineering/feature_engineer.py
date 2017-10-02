@@ -83,19 +83,29 @@ class FeatureEngineer:
         self.subsidies_df['transaction_day'] = \
                 self.subsidies_df.transaction_date.apply(lambda x: x.day)
     
-    def add_day_of_year_number(self, row):
+    def add_day_of_year_sin(self, row):
         '''
-        A method to add a new feature: number of days into the year / 365
+        A method to add a new feature: sine of number of days into the year
         for each subsidy payment.
         Returns sin(2pi * days / 365) to cycle at December 31/January 1
         '''
         year = row.transaction_date.year
         days = (row.transaction_date - pd.to_datetime('%s-01-01' % year)).days
         return np.sin(2. * np.pi * days / 365.)
-
-    def add_day_of_month_number(self, row):
+    
+    def add_day_of_year_cos(self, row):
         '''
-        A method to add a new feature: number of days into the month / 30
+        A method to add a new feature: cosine of number of days into the year
+        for each subsidy payment.
+        Returns cos(2pi * days / 365) to cycle at December 31/January 1
+        '''
+        year = row.transaction_date.year
+        days = (row.transaction_date - pd.to_datetime('%s-01-01' % year)).days
+        return np.cos(2. * np.pi * days / 365.)
+
+    def add_day_of_month_sin(self, row):
+        '''
+        A method to add a new feature: sine of number of days into the month
         for each subsidy payment.
         Returns sin(2pi * days / 30) to cycle at first/last of month
         '''
@@ -103,11 +113,22 @@ class FeatureEngineer:
         month = row.transaction_date.month
         days = (row.transaction_date - pd.to_datetime('%s-%s-01' % (year, month))).days
         return np.sin(2. * np.pi * days / 30.)
-
-    def add_season_number(self):
+    
+    def add_day_of_month_cos(self, row):
         '''
-        A method to add a new feature: season number / 4
-        for each subsidy payment.  Seasons are defined as meteorological seasons:
+        A method to add a new feature: cosine of number of days into the month
+        for each subsidy payment.
+        Returns cos(2pi * days / 30) to cycle at first/last of month
+        '''
+        year = row.transaction_date.year
+        month = row.transaction_date.month
+        days = (row.transaction_date - pd.to_datetime('%s-%s-01' % (year, month))).days
+        return np.cos(2. * np.pi * days / 30.)
+
+    def add_season_sin(self):
+        '''
+        A method to add a new feature: sine of season number for each subsidy payment.
+        Seasons are defined as meteorological seasons:
             - Winter = [December, January, February] = season 1
             - Spring = [March, April, May] = season 2
             - Summer = [June, July, August] = season 3
@@ -116,22 +137,51 @@ class FeatureEngineer:
         '''
         month_to_season_dict = {1:1, 2:1, 3:2, 4:2, 5:2, 6:3,
                                 7:3, 8:3, 9:4, 10:4, 11:4, 12:1}
-        self.subsidies_df['season'] = \
+        self.subsidies_df['sin_season'] = \
                 self.subsidies_df.transaction_month.apply(lambda x: month_to_season_dict[x])
         self.subsidies_df.season = \
-                self.subsidies_df.season.apply(lambda x: pl.cos(2. * pl.pi * (x - pl.pi/2.) / 4.))
-            
-    def add_week_of_year_number(self):
+                self.subsidies_df.sin_season.apply(lambda x: pl.sin(2. * pl.pi * x / 4.))
+    
+    def add_season_cos(self):
         '''
-        A method to add a new feature: number of weeks into the year / 52
+        A method to add a new feature: cosine of season number for each subsidy payment.
+        Seasons are defined as meteorological seasons:
+            - Winter = [December, January, February] = season 1
+            - Spring = [March, April, May] = season 2
+            - Summer = [June, July, August] = season 3
+            - Autumn = [September, October, November] = season 4
+        Returns cos(2pi * season / 4) to cycle yearly
+        '''
+        month_to_season_dict = {1:1, 2:1, 3:2, 4:2, 5:2, 6:3,
+                                7:3, 8:3, 9:4, 10:4, 11:4, 12:1}
+        self.subsidies_df['cos_season'] = \
+                self.subsidies_df.transaction_month.apply(lambda x: month_to_season_dict[x])
+        self.subsidies_df.season = \
+                self.subsidies_df.cos_season.apply(lambda x: pl.cos(2. * pl.pi * x / 4.))
+            
+    def add_week_of_year_sin(self):
+        '''
+        A method to add a new feature: sine of number of weeks into the year
         for each subsidy payment.
         Returns sin(2pi * weeks / 52) to cycle at the start/end of the year
         '''
-        self.subsidies_df['week_of_year'] = \
+        self.subsidies_df['sin_week_of_year'] = \
                 self.subsidies_df.transaction_date.apply(lambda x: 
                                                          (x - pd.to_datetime('%s-01-01' % x.year)).days/7.)
         self.subsidies_df.week_of_year = \
-                self.subsidies_df.week_of_year.apply(lambda x: pl.sin(2. * pl.pi * x / 52.))
+                self.subsidies_df.sin_week_of_year.apply(lambda x: pl.sin(2. * pl.pi * x / 52.))
+            
+    def add_week_of_year_cos(self):
+        '''
+        A method to add a new feature: cosine of number of weeks into the year
+        for each subsidy payment.
+        Returns sin(2pi * weeks / 52) to cycle at the start/end of the year
+        '''
+        self.subsidies_df['cos_week_of_year'] = \
+                self.subsidies_df.transaction_date.apply(lambda x: 
+                                                         (x - pd.to_datetime('%s-01-01' % x.year)).days/7.)
+        self.subsidies_df.week_of_year = \
+                self.subsidies_df.cos_week_of_year.apply(lambda x: pl.cos(2. * pl.pi * x / 52.))
     
     def add_log_transaction_amount(self):
         '''
@@ -193,12 +243,18 @@ class FeatureEngineer:
         self.add_transaction_year()
         self.add_transaction_month() 
         self.add_transaction_day()
-        self.subsidies_df['day_of_year'] = \
-                self.subsidies_df.apply(self.add_day_of_year_number, axis=1)
-        self.subsidies_df['day_of_month'] = \
-                self.subsidies_df.apply(self.add_day_of_month_number, axis=1)
-        self.add_week_of_year_number()
-        self.add_season_number()
+        self.subsidies_df['sin_day_of_year'] = \
+                self.subsidies_df.apply(self.add_day_of_year_sin, axis=1)
+        self.subsidies_df['cos_day_of_year'] = \
+                self.subsidies_df.apply(self.add_day_of_year_cos, axis=1)
+        self.subsidies_df['sin_day_of_month'] = \
+                self.subsidies_df.apply(self.add_day_of_month_sin, axis=1)
+        self.subsidies_df['cos_day_of_month'] = \
+                self.subsidies_df.apply(self.add_day_of_month_cos, axis=1)
+        self.add_week_of_year_sin()
+        self.add_week_of_year_cos()
+        self.add_season_sin()
+        self.add_season_cos()
         self.add_customer_number_binary_var()
         self.add_log_transaction_amount()
         self.add_customer_cluster_number()
@@ -383,9 +439,10 @@ class FeatureEngineer:
         '''
         target_columns = ['transaction_amount']
         train_columns = ['customer_number_startswith_A', 'days_of_drought_in_yr',
-                         'drought_severity_count', 'day_of_year', 'day_of_month',
-                         'program_year', 'season', 'transaction_year', 'transaction_month', 
-                         'transaction_day', 'week_of_year']
+                         'drought_severity_count', 'sin_day_of_year', 'cos_day_of_year', 
+                         'sin_day_of_month', 'cos_day_of_month', 'sin_season', 'cos_season', 
+                         'program_year', 'transaction_year', 'transaction_month', 
+                         'transaction_day', 'sin_week_of_year', 'cos_week_of_year']
         if self.crop_name in self.futures_crop_dict.keys():
             train_columns += ['futures_30day_mean', 'futures_30day_std', 'futures_30day_range']
         train_columns += [col for col in self.subsidies_df.columns if col.startswith('cluster_')]
