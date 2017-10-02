@@ -208,8 +208,8 @@ class FeatureEngineer:
         Returns the KMeans cluster number (from 0 to 9) for the farm, as identified by the 
         sklearn.cluster.KMeans algorithm with the number of clusters (n_clusters) set to 10.
         '''
-        clustering_columns = ['log_transaction_amount', 'day_of_year', 'day_of_month', 
-                              'program_year', 'program_code']
+        clustering_columns = ['log_transaction_amount', 'sin_day_of_year', 'cos_day_of_year', 
+                              'sin_day_of_month', 'cos_day_of_month', 'program_year', 'program_code']
         clustering_features = self.subsidies_df[clustering_columns]
         clustering_features = sklearn.preprocessing.normalize(clustering_features)
         km = KMeans(n_clusters=10, random_state=0)

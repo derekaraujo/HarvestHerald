@@ -28,9 +28,12 @@ class XGBRegressorForecaster:
         else:
             self.train_columns = [col for col in self.dataframe.columns if 
                                   '_customer_number_startswith_A' in col]
-            self.train_columns += [col for col in self.dataframe.columns if '_day_of_year' in col]
-            self.train_columns += [col for col in self.dataframe.columns if '_day_of_month' in col]
-            self.train_columns += [col for col in self.dataframe.columns if '_season' in col]
+            self.train_columns += [col for col in self.dataframe.columns if '_sin_day_of_year' in col]
+            self.train_columns += [col for col in self.dataframe.columns if '_cos_day_of_year' in col]
+            self.train_columns += [col for col in self.dataframe.columns if '_sin_day_of_month' in col]
+            self.train_columns += [col for col in self.dataframe.columns if '_cos_day_of_month' in col]
+            self.train_columns += [col for col in self.dataframe.columns if '_sin_season' in col]
+            self.train_columns += [col for col in self.dataframe.columns if '_cos_season' in col]
             self.train_columns += [col for col in self.dataframe.columns if '_program_code' in col]
             self.train_columns += [col for col in self.dataframe.columns if '_program_year' in col]
             self.train_columns += [col for col in self.dataframe.columns if '_state_code' in col]
