@@ -20,3 +20,5 @@ statsmodels
 warnings
 xgboost
 copy
+folium
+branca
