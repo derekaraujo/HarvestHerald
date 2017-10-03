@@ -233,7 +233,7 @@ class FeatureEngineer:
         for column_name in column_names:
             dummies = pd.get_dummies(self.subsidies_df['%s' % column_name], 
                                      prefix='%s' % column_name)
-            self.subsidies_sdf = pd.concat([self.subsidies_df, dummies], axis=1)  
+            self.subsidies_df = pd.concat([self.subsidies_df, dummies], axis=1)  
 
     def run_subsidy_df_features_wrapper(self):
         '''
