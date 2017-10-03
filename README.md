@@ -117,7 +117,7 @@ Ultimately I decided to soldier on, with the hope that sufficiently clever featu
 
 Feature engineering involved designing more than 800 features relevant to the size of the subsidy payments.  Feature engineering proceeds in two steps:
 
-  1. Generating a new numerical, categorical, or binary feature for each payment record
+  1. Generating new numerical, categorical, and binary features for each payment record
   2. Binning the records into one-month bins and recording the mean, standard deviation, and range of each feature
 
 <p align="center">
