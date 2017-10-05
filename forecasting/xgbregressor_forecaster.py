@@ -5,7 +5,6 @@ import pandas as pd
 import sklearn
 from sklearn.metrics import mean_squared_error
 from xgboost import XGBRegressor
-import copy
 import os
 import warnings
 import seaborn as sns
