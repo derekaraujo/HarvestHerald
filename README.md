@@ -145,7 +145,7 @@ Traditional analysts encouraged me pursue Auto-Regressive Integrated Moving Aver
 They tended to intone strict maxims that can be loosely paraphrased as: 
 
 > _Under no circumstances should you yield to the siren call of sophisticated regression 
-> tree models.  Woe unto to him that does; they are hard-to-interpret black box algorithms 
+> tree models.  Woe unto him that does; they are hard-to-interpret black box algorithms 
 > that offer little by way of illumination and understanding.  Bind yourself to the mast, 
 > and forge ahead with ARIMA._
 
